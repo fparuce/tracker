@@ -1,27 +1,55 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <main class="columns is-gapless is-multiline">
+    <div class="column is-one-quarter">
+      <BarraLateral />
+    </div>
+    <div class="column is-three-quarter">
+      <FormularioTarefa @aoSalvarTarefa="salvarTarefa"/>
+      <div class="lista">
+        <BoxTracker v-if="listaVazia">Você não está muito produtivo hoje... T.T</BoxTracker>
+        <TarefaTracker v-else v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"/>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import BarraLateral from './components/BarraLateral.vue';
+import FormularioTarefa from './components/FormularioTarefa.vue';
+import TarefaTracker from './components/Tarefa.vue';
+import ITarefa from './interfaces/ITarefa';
+import BoxTracker from './components/Box.vue';
+
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    BarraLateral,
+    FormularioTarefa,
+    TarefaTracker,
+    BoxTracker
+  },
+  data() {
+    return {
+      tarefas: [] as ITarefa[]
+    }
+  },
+  computed: {
+    listaVazia() : boolean{
+      return this.tarefas.length === 0;
+    }
+  },
+  methods: {
+    salvarTarefa (tarefa: ITarefa){
+      this.tarefas.push(tarefa);
+    }
   }
 });
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.lista {
+  padding: 1.25rem;
 }
 </style>

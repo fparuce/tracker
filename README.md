@@ -1,5 +1,8 @@
 # tracker
 
+Projeto de estudo do Vue.JS 3.
+Aplicativo de lista de tarefas com cronometro.
+
 ## Project setup
 ```
 npm install
