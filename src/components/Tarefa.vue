@@ -28,7 +28,7 @@ import CronometroTrack from './Cronometro.vue';
 import ITarefa from '../interfaces/ITarefa';
 import BoxTracker from './Box.vue';
 import { useStore } from '@/store';
-import { REMOVE_TAREFA } from '@/store/tipo-mutacoes';
+import { REMOVER_TAREFA } from '@/store/tipo-acoes';
 
 
 export default defineComponent({
@@ -43,16 +43,15 @@ export default defineComponent({
             required: true
         }
     },
-    methods: {
-        excluir(id: string) {
-            this.store.commit(REMOVE_TAREFA, id)
-        }
-    },
     setup() {
         const store = useStore();
+
+        const excluir = (id: string) => {
+            store.dispatch(REMOVER_TAREFA, id)
+        }
         return {
-            projetos: computed(() => store.state.projetos),
-            store
+            projetos: computed(() => store.state.projeto.projetos),
+            excluir
         }
     }
 

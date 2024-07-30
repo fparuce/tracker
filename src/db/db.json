@@ -1,0 +1,40 @@
+{
+  "projetos": [
+    {
+      "id": "1",
+      "nome": "Tracker 3.1"
+    },
+    {
+      "id": "2",
+      "nome": "Vue"
+    },
+    {
+      "id": "04a3",
+      "nome": "Teste"
+    },
+    {
+      "id": "c388",
+      "nome": "Plano de estudos"
+    }
+  ],
+  "tarefas": [
+    {
+      "id": "1",
+      "duracaoEmSegundos": 3,
+      "descricao": "Teste",
+      "projeto": {
+        "id": "1",
+        "nome": "Tracker 3.1"
+      }
+    },
+    {
+      "id": "b037",
+      "duracaoEmSegundos": 4,
+      "descricao": "OPA",
+      "projeto": {
+        "id": "c388",
+        "nome": "Plano de estudos"
+      }
+    }
+  ]
+}

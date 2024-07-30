@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import TemporizadorTrack from './Temporizador.vue';
 import { NOTIFICAR } from '@/store/tipo-mutacoes';
@@ -37,36 +37,35 @@ export default defineComponent({
         TemporizadorTrack
     },
     emitis: ['aoSalvarTarefa'],
-    data() {
-        return {
-            descricao: '',
-            idProjeto: ''
-        }
-    },
-    methods: {
-        finalizarTarefa(tempoDecorrido: number): void {
-            const projeto = this.projetos.find(p => p.id == this.idProjeto);
+    setup(props, contexto) {
+        const store = useStore(key);
+        const projetos = computed(() => store.state.projeto.projetos);
+
+        const descricao = ref("");
+        const idProjeto = ref("");
+
+        const finalizarTarefa = (tempoDecorrido: number): void => {
+            const projeto = projetos.value.find(p => p.id == idProjeto.value);
             if(!projeto){
-                this.store.commit(NOTIFICAR, {
+                store.commit(NOTIFICAR, {
                     titulo: 'Ops!',
                     texto: "Selecione um projeto antes de finalizar a tarefa!",
                     tipo: TipoNotificacao.FALHA,
                 });
                 return;
             }
-            this.$emit('aoSalvarTarefa', {
+            contexto.emit('aoSalvarTarefa', {
                 duracaoEmSegundos: tempoDecorrido,
-                descricao: this.descricao,
+                descricao: descricao.value,
                 projeto: projeto
             });
-            this.descricao = '';
+            descricao.value = '';
         }
-    },
-    setup() {
-        const store = useStore(key)
         return {
-            projetos: computed(() => store.state.projetos),
-            store
+            projetos: computed(() => store.state.projeto.projetos),
+            descricao,
+            idProjeto,
+            finalizarTarefa
         }
     }
 })
